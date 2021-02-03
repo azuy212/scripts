@@ -1,0 +1,42 @@
+#!/bin/bash
+
+DEFAINT_BACKEND=/home/ali/projects/backend
+DEFAINT_FRONTEND=/home/ali/projects/frontend
+
+# Repo names of frontend projects
+frontendProjects[0]=defiant
+
+# Repo names of backend projects
+backendProjects[0]=slor
+backendProjects[1]=middle-tier
+backendProjects[2]=file-service
+backendProjects[3]=prism-warranty
+
+update_project() {
+    if [[ "${backendProjects[@]}" =~ "$1" ]]; then
+        PROJECT_PATH=$DEFAINT_BACKEND/$1
+    elif [[ "${frontendProjects[@]}" =~ "$1" ]]; then
+        PROJECT_PATH=$DEFAINT_FRONTEND/$1
+    else
+        exit 1
+    fi
+    CURRENT_BRANCH=$(git -C $PROJECT_PATH rev-parse --abbrev-ref HEAD)
+    print_title_header "Syncing $1 (${2:-$CURRENT_BRANCH})"
+    git -C $PROJECT_PATH fetch
+    git -C $PROJECT_PATH stash
+    if [[ -n "$2" ]]; then
+        git -C $PROJECT_PATH checkout $2
+    fi
+    git -C $PROJECT_PATH pull
+    git -C $PROJECT_PATH stash pop
+}
+
+if [ -z "$1" ]; then
+    for project in ${backendProjects[@]} ${frontendProjects[@]}; do
+        update_project $project
+    done
+elif [[ "${backendProjects[@]} ${frontendProjects[@]}" =~ "$1" ]]; then
+    update_project $1 $2
+else
+    echo "Invalid Argument Provided $1"
+fi

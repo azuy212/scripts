@@ -1,0 +1,7 @@
+#!/bin/sh
+
+tmux new -s foo 'watch ls'
+tmux split-window -h 'echo "Hello 2"; sleep 3'
+tmux split-window -v -t 0 'echo "Hello 3"; sleep 2'
+tmux split-window -v -t 1 'echo "Hello 4"; sleep 1'
+tmux -2 attach-session -t foo

@@ -1,0 +1,8 @@
+#!/bin/bash
+device='FWVGA_slider_API_23'
+if [ "$1" == "cold-boot" ];
+then
+    emulator -avd $device -no-snapshot-load > /dev/null 2>&1 &
+else
+    emulator -avd $device > /dev/null 2>&1 &
+fi;

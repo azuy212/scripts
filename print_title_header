@@ -1,0 +1,23 @@
+#!/bin/bash
+cols=$(tput cols)
+title_header_prefix='#'
+title=$1
+title_length=${#title}
+title_prefix='='
+title_prefix_length=$(((cols - title_length - 10) / 2))
+
+for ((i = 1; i <= $cols; i++)); do echo -ne "$title_header_prefix"; done
+
+echo -e "\n"
+
+for ((i = 1; i <= $title_prefix_length; i++)); do echo -ne "$title_prefix"; done
+
+echo -ne "     $(tr [a-z] [A-Z] <<<$title)     "
+
+for ((i = 1; i <= $title_prefix_length; i++)); do echo -ne "$title_prefix"; done
+
+echo -e "\n"
+
+for ((i = 1; i <= $cols; i++)); do echo -ne "$title_header_prefix"; done
+
+echo -e "\n"

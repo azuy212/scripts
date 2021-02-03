@@ -1,0 +1,17 @@
+#!/bin/bash
+
+while getopts ":a:" opt; do
+    case $opt in
+      a)
+        echo "-a was triggered, Parameter: $OPTARG"
+        ;;
+      \?)
+        echo "Invalid Option: -$OPTARG" >&2
+        exit 1
+        ;;
+      :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
+    esac
+done

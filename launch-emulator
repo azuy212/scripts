@@ -1,0 +1,26 @@
+AVAILABLE_DEVICES=$(emulator -list-avds)
+
+function launch() {
+    if [ "$2" == "cold-boot" ]; then
+        print_subtitle_header "Launching (${AVAILABLE_DEVICES[$1]}) in Cold Boot"
+        emulator -avd ${AVAILABLE_DEVICES[$1]} -no-snapshot-load >/dev/null 2>&1 &
+    else
+        print_subtitle_header "Launching (${AVAILABLE_DEVICES[$1]})"
+        emulator -avd ${AVAILABLE_DEVICES[$1]} >/dev/null 2>&1 &
+    fi
+}
+
+n=1
+for device in ${AVAILABLE_DEVICES[@]}; do
+    echo "$n." $device
+    ((n++))
+done
+
+if [ ${#AVAILABLE_DEVICES[@]} -eq "1" ]; then
+    launch 0 $1
+    exit 0
+fi
+
+read -p "Select Your Emulator: " selectedEmulator
+
+launch selectedEmulator-1 $1

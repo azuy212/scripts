@@ -1,0 +1,25 @@
+#!/bin/bash
+
+EMP_CODE=00749
+
+printf -v CURRENT_MINUTES '%(%M)T'
+
+START_TIME=${1:-11:00 am}
+printf -v END_TIME "${2:-%(%I)T:$((CURRENT_MINUTES - CURRENT_MINUTES % 5)) %(%P)T}"
+DURATION=$(($(date --date "$END_TIME" +%s)-$(date --date "$START_TIME" +%s)))
+DURATION=`echo "scale=1; $DURATION/3600" | bc`
+
+printf -v TODAY "%(%d-%B-%Y)T";
+printf -v SUBJECT "WFH - %(%d-%b-%Y)T";
+
+printf -v MESSAGE "Time In: %s
+Time Out: %s
+Hours: %s
+Employee Code: %s" "$START_TIME" "$END_TIME" "$DURATION" "$EMP_CODE"
+
+echo "$SUBJECT" | xclip
+echo "$MESSAGE" | xclip -sel clip
+
+echo "$SUBJECT";
+echo "";
+echo "$MESSAGE";

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+printf -v CURRENT_DATE '%(%A %B %d, %Y)T'
+CURRENT_MINUTES=$(date +%s)
+CURRENT_MINUTES_ROUND=$(echo "$CURRENT_MINUTES-$CURRENT_MINUTES%300" | bc)
+
+printf -v CURRENT_MINUTES_ROUND "${1:-$(date --date="@$CURRENT_MINUTES_ROUND" '+%I:%M %P')}"
+
+printf -v MESSAGE "Hi Contour Admin,
+
+I have started working from home today (%s) at %s." "$CURRENT_DATE" "$CURRENT_MINUTES_ROUND"
+
+printf -v SUBJECT "WFH - %(%d-%b-%Y)T"
+
+echo "$MESSAGE" | xclip -sel clip
+echo "$SUBJECT" | xclip
+
+echo "$SUBJECT"
+echo ""
+echo "$MESSAGE"

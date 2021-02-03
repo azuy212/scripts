@@ -1,0 +1,42 @@
+#!/bin/bash
+DEFIANT_BACKEND=/home/ali/projects/backend
+SLOR=slor
+MIDDLE_TIER=middle-tier
+FILE_SERVICE=file-service
+PRISM_WARRANTY=prism-warranty
+
+CURRENT_BRANCH=develop
+
+set_current_branch() {
+  branch_name=$(git symbolic-ref -q HEAD)
+  branch_name=${branch_name##refs/heads/}
+  branch_name=${branch_name:-HEAD}
+  CURRENT_BRANCH=$branch_name
+}
+
+build_java_project() {
+  cd $DEFIANT_BACKEND/$1
+  set_current_branch
+  if [[ $2 -eq 11 ]]; then
+    print_title_header "Building $1 ($CURRENT_BRANCH) (Java 11)"
+    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+  else
+    print_title_header "Building $1 ($CURRENT_BRANCH) (Java 8)"
+    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+  fi
+  if [ "$1" = "$SLOR" ] || [ "$1" = "$MIDDLE_TIER" ] || [ "$1" = "$PRISM_WARRANTY" ]; then
+    mvn clean install -DskipTests
+  elif [ "$1" = "$FILE_SERVICE" ]; then
+    ./gradlew build
+  else
+    echo "Invalid Argument Provided $1"
+  fi
+}
+
+if [ -z "$1" ]; then
+  for project in $MIDDLE_TIER $SLOR $FILE_SERVICE; do
+    build_java_project $project
+  done
+else
+  build_java_project $1 $2
+fi
