@@ -1,0 +1,15 @@
+#!/bin/bash
+#Update Script
+
+if [ $EUID -ne "0" ]; then
+  echo -e "\nPlease run as root.\n"
+  exit
+fi
+
+#Apt
+apt update
+apt upgrade -y
+apt dist-upgrade -y
+apt autoremove -y
+apt autoclean -y
+

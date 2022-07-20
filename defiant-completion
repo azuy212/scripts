@@ -1,5 +1,6 @@
 #!/bin/bash
 
-complete -W "slor middle-tier file-service prism-warranty" defiant-build
-complete -W "slor middle-tier file-service defiant prism-warranty" defiant-update
-complete -W "slor middle-tier file-service defiant prism-warranty" defiant-start
+complete -W "slor middle-tier file-service defiant defiant-test prism-warranty prism-live-stream" defiant-update
+complete -W "slor middle-tier file-service prism-warranty prism-live-stream" defiant-build
+complete -W "slor middle-tier file-service defiant defiant-test prism-warranty prism-live-stream" defiant-start
+complete -W "slor prism-warranty" defiant-logs

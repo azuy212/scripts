@@ -4,6 +4,7 @@ SLOR=slor
 MIDDLE_TIER=middle-tier
 FILE_SERVICE=file-service
 PRISM_WARRANTY=prism-warranty
+PRISM_LIVE_STREAM=prism-live-stream
 
 CURRENT_BRANCH=develop
 
@@ -24,7 +25,7 @@ build_java_project() {
     print_title_header "Building $1 ($CURRENT_BRANCH) (Java 8)"
     export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
   fi
-  if [ "$1" = "$SLOR" ] || [ "$1" = "$MIDDLE_TIER" ] || [ "$1" = "$PRISM_WARRANTY" ]; then
+  if [ "$1" = "$SLOR" ] || [ "$1" = "$MIDDLE_TIER" ] || [ "$1" = "$PRISM_WARRANTY" ] || [ "$1" = "$PRISM_LIVE_STREAM" ]; then
     mvn clean install -DskipTests
   elif [ "$1" = "$FILE_SERVICE" ]; then
     ./gradlew build

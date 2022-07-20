@@ -5,12 +5,15 @@ DEFAINT_FRONTEND=/home/ali/projects/frontend
 
 # Repo names of frontend projects
 frontendProjects[0]=defiant
+frontendProjects[1]=defiant-test
 
 # Repo names of backend projects
 backendProjects[0]=slor
 backendProjects[1]=middle-tier
 backendProjects[2]=file-service
 backendProjects[3]=prism-warranty
+backendProjects[4]=prism-live-stream
+backendProjects[5]=sms-integration
 
 update_project() {
     if [[ "${backendProjects[@]}" =~ "$1" ]]; then

@@ -1,0 +1,18 @@
+#!/bin/bash
+export PATH=$PATH:/usr/local/bin/:/home/ali/.local/bin/:/usr/bin/
+export FILE_PATH=/home/ali/weather
+
+echo "Hourly Weather Start $(date)" >> $FILE_PATH
+
+export DISPLAY=:0
+
+WEATHER_REPORT=$(curl "https://api.openweathermap.org/data/2.5/weather?q=lahore&appid=e938f94a70d7bf98a51a02da8cc7b5cd&units=metric");
+
+TEMP_CUR=$(echo $WEATHER_REPORT | jq '.main.temp');
+TEMP_MIN=$(echo $WEATHER_REPORT | jq '.main.temp_min');
+TEMP_MAX=$(echo $WEATHER_REPORT | jq '.main.temp_max');
+
+notify-send "Lahore Weather Report" "Current: $TEMP_CUR °C\nMin: $TEMP_MIN °C\nMax: $TEMP_MAX °C"
+
+echo "Lahore Weather Report Current: $TEMP_CUR °C\nMin: $TEMP_MIN °C\nMax: $TEMP_MAX °C" >> $FILE_PATH
+echo "Hourly Weather End" >> $FILE_PATH

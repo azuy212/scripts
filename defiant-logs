@@ -1,0 +1,16 @@
+#!/bin/bash
+DEFIANT_BACKEND=/home/ali/projects/backend
+
+# Repo names of backend projects
+backendProjects[0]=slor
+backendProjects[1]=prism-warranty
+# Jars Paths
+declare -A backendProjectLogFile
+backendProjectLogFile[slor]=logs/prism-support.log
+backendProjectLogFile[prism-warranty]=logs/prism-support.log
+
+if [[ "${backendProjects[@]}" =~ "$1" ]]; then
+  tail -f "$DEFIANT_BACKEND/$1/${backendProjectLogFile[$1]}"
+else
+  echo "Invalid Argument Provided $1"
+fi

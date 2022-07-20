@@ -4,18 +4,21 @@ DEFIANT_FRONTEND=/home/ali/projects/frontend
 
 # Repo names of frontend projects
 frontendProjects[0]=defiant
+frontendProjects[1]=defiant-test
 
 # Repo names of backend projects
 backendProjects[0]=slor
 backendProjects[1]=middle-tier
 backendProjects[2]=file-service
 backendProjects[3]=prism-warranty
+backendProjects[4]=prism-live-stream
 # Jars Paths
 declare -A backendProjectJars
 backendProjectJars[slor]=target/prism-support-2.0.0-SNAPSHOT.jar
 backendProjectJars[middle-tier]=prism/target/prism-2.4.0-SNAPSHOT.jar
 backendProjectJars[file-service]=build/libs/file-service-0.0.1-SNAPSHOT.jar
-backendProjectJars[prism-warranty]=target/prism-warranty-1.0-SNAPSHOT.jar
+backendProjectJars[prism-warranty]=target/prism-warranty-2.4.0-SNAPSHOT.jar
+backendProjectJars[prism-live-stream]=target/prism-live-stream-1.0-SNAPSHOT.jar
 
 run_java_project() {
   if [[ "${backendProjects[@]}" =~ "$1" ]]; then
@@ -26,7 +29,7 @@ run_java_project() {
       java -jar ${backendProjectJars[$1]}
     else
       print_title_header "$1 ($CURRENT_BRANCH) (Java 8)"
-      java8 -jar ${backendProjectJars[$1]}
+      java8 -jar -Xmx1G ${backendProjectJars[$1]}
     fi
   elif [[ "${frontendProjects[@]}" =~ "$1" ]]; then
     cd $DEFIANT_FRONTEND/$1
